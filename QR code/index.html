@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Contact Card</title>
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#10182B" />
+<link rel="icon" href="icon-192.png" />
+<link rel="apple-touch-icon" href="icon-192.png" />
+
+<style>
+  :root{
+    --ink:#10182B;
+    --cardstock:#F4EFE3;
+    --brass:#B8943C;
+    --emerald:#1F6F5C;
+    --charcoal:#1B1D23;
+    --muted:#8B8270;
+    --serif: Georgia, "Iowan Old Style", "Palatino Linotype", "Times New Roman", serif;
+    --mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", "Courier New", monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; }
+
+  body{
+    min-height:100vh;
+    background: radial-gradient(circle at 50% -10%, #1a2440 0%, var(--ink) 55%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding: 32px 16px 48px;
+    font-family: var(--sans);
+    color: var(--charcoal);
+  }
+
+  .card{
+    width:100%;
+    max-width: 380px;
+    background: var(--cardstock);
+    border-radius: 18px;
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.55), 0 0 0 1px rgba(184,148,60,0.25);
+    position: relative;
+    padding: 36px 28px 30px;
+    overflow: hidden;
+  }
+
+  .card::before{
+    content:"";
+    position:absolute;
+    top:0; left:0; right:0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--brass), #e3cd8a, var(--brass));
+  }
+
+  .punch{
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--ink);
+    margin: -36px auto 26px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.6);
+  }
+
+  .avatar{
+    width: 78px; height: 78px;
+    border-radius: 50%;
+    margin: 0 auto 18px;
+    display:flex; align-items:center; justify-content:center;
+    background: linear-gradient(160deg, var(--ink), #1d2742);
+    color: var(--brass);
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 700;
+    border: 2px solid var(--brass);
+  }
+
+  .identity{ text-align:center; margin-bottom: 22px; }
+
+  .name{
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0 0 4px;
+    color: var(--charcoal);
+  }
+
+  .role{
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  .save-btn{
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    width:100%;
+    margin: 22px 0 26px;
+    padding: 13px 18px;
+    border-radius: 10px;
+    border: none;
+    background: var(--ink);
+    color: var(--cardstock);
+    font-family: var(--mono);
+    font-size: 12.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor:pointer;
+    transition: transform .15s ease, background .15s ease;
+  }
+  .save-btn:hover{ background:#1a2440; }
+  .save-btn:active{ transform: scale(0.97); }
+  .save-btn:focus-visible{ outline: 2px solid var(--brass); outline-offset: 2px; }
+
+  .perforation{
+    display:flex; align-items:center; gap:8px;
+    margin: 0 -28px 24px;
+    padding: 0 28px;
+  }
+  .perforation .line{
+    flex:1;
+    border-top: 2px dashed rgba(27,29,35,0.22);
+  }
+  .perforation .label{
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px 10px;
+  }
+
+  .stamp{
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    text-decoration:none;
+    color: var(--charcoal);
+  }
+
+  .stamp .ring{
+    width: 54px; height: 54px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1.5px solid rgba(27,29,35,0.15);
+    display:flex; align-items:center; justify-content:center;
+    transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+  }
+  .stamp svg{ width: 22px; height: 22px; fill: var(--ink); }
+
+  .stamp:hover .ring,
+  .stamp:focus-visible .ring{
+    border-color: var(--brass);
+    box-shadow: 0 6px 16px -6px rgba(184,148,60,0.6);
+    transform: translateY(-2px);
+  }
+  .stamp:focus-visible{ outline:none; }
+  .stamp:active .ring{ transform: scale(0.94); }
+
+  .stamp .label{
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .footer-note{
+    margin-top: 28px;
+    text-align:center;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    opacity: 0.85;
+  }
+
+  .toast{
+    position: fixed;
+    bottom: 24px; left:50%;
+    transform: translate(-50%, 12px);
+    background: var(--ink);
+    color: var(--cardstock);
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    padding: 10px 18px;
+    border-radius: 8px;
+    opacity:0;
+    pointer-events:none;
+    transition: opacity .25s ease, transform .25s ease;
+    box-shadow: 0 10px 30px -10px rgba(0,0,0,0.6);
+  }
+  .toast.show{ opacity:1; transform: translate(-50%, 0); }
+
+  @media (prefers-reduced-motion: reduce){
+    .save-btn, .stamp .ring, .toast{ transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="punch"></div>
+  <div class="avatar" id="avatarInitials">JD</div>
+
+  <div class="identity">
+    <p class="name" id="nameOut">John Doe</p>
+    <p class="role" id="roleOut">Founder · My Business</p>
+  </div>
+
+  <button class="save-btn" id="saveBtn" type="button">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>
+    Save Contact
+  </button>
+
+  <div class="perforation">
+    <div class="line"></div>
+    <span class="label">✂ Connect</span>
+    <div class="line"></div>
+  </div>
+
+  <div class="grid" id="buttonGrid"></div>
+
+  <p class="footer-note">Works offline once loaded · Add to Home Screen</p>
+</div>
+
+<div class="toast" id="toast">Saved to contacts</div>
+
+<script>
+/* =====================================================================
+   1. EDIT YOUR DETAILS HERE — everything below is generated from this.
+   ===================================================================== */
+  const CONFIG = {
+    firstName: "John",
+    lastName: "Doe",
+    org: "My Business",
+    title: "Founder",
+    initials: "JD",
+    phone: "+255700000000",
+    email: "[email protected]",
+
+    // Leave any value as "" to hide that button.
+    links: {
+      whatsapp:  { label: "WhatsApp",  url: "https://wa.me/255700000000" },
+      phone:     { label: "Call",      url: "tel:+255700000000" },
+      instagram: { label: "Instagram", url: "https://instagram.com/yourhandle" },
+      x:         { label: "X",         url: "https://x.com/yourhandle" },
+      facebook:  { label: "Facebook",  url: "https://facebook.com/yourpage" },
+      linkedin:  { label: "LinkedIn",  url: "https://linkedin.com/in/yourhandle" },
+      email:     { label: "Email",     url: "mailto:[email protected]" },
+      website:   { label: "Website",   url: "https://yourwebsite.com" }
+    }
+  };
+/* ===================================================================== */
+
+const ICONS = {
+  whatsapp: '<svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.3-1.4-.9-.8-1.5-1.7-1.6-2-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.1-.5-.1-.2-.6-1.4-.8-1.9-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-.9.9-.9 2.1 0 1.2.9 2.4 1 2.6.1.1 1.5 2.3 3.7 3.2 2.2.9 2.2.6 2.6.6.4 0 1.2-.5 1.4-1 .2-.5.2-.9.1-1l-.1-.1zM12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2z"/></svg>',
+  phone: '<svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.9 15.9 0 0 0 6.6 6.6l2.2-2.2a1.5 1.5 0 0 1 1.5-.4 12 12 0 0 0 3.8.6 1.5 1.5 0 0 1 1.5 1.5v3.6a1.5 1.5 0 0 1-1.5 1.5A18 18 0 0 1 2.5 3.5 1.5 1.5 0 0 1 4 2h3.6a1.5 1.5 0 0 1 1.5 1.5 12 12 0 0 0 .6 3.8 1.5 1.5 0 0 1-.4 1.5l-2.7 2z"/></svg>',
+  instagram: '<svg viewBox="0 0 24 24"><path d="M12 2.2c2.7 0 3 0 4.1.06 1 .05 1.6.2 2 .35a4 4 0 0 1 1.4 1 4 4 0 0 1 1 1.4c.15.4.3 1 .35 2 .05 1.1.06 1.4.06 4.1s0 3-.06 4.1c-.05 1-.2 1.6-.35 2a4 4 0 0 1-1 1.4 4 4 0 0 1-1.4 1c-.4.15-1 .3-2 .35-1.1.05-1.4.06-4.1.06s-3 0-4.1-.06c-1-.05-1.6-.2-2-.35a4 4 0 0 1-1.4-1 4 4 0 0 1-1-1.4c-.15-.4-.3-1-.35-2C2.2 15 2.2 14.7 2.2 12s0-3 .06-4.1c.05-1 .2-1.6.35-2a4 4 0 0 1 1-1.4 4 4 0 0 1 1.4-1c.4-.15 1-.3 2-.35C7.9 2.2 8.2 2.2 12 2.2zm0 1.8c-2.7 0-3 0-4 .06-.85.04-1.3.18-1.6.3-.4.15-.7.34-1 .64-.3.3-.5.6-.64 1-.12.3-.26.75-.3 1.6C4.4 8.6 4.4 8.9 4.4 12s0 3 .06 4 .18 1.3.3 1.6c.15.4.34.7.64 1 .3.3.6.5 1 .64.3.12.75.26 1.6.3.95.05 1.25.06 4 .06s3 0 4-.06c.85-.04 1.3-.18 1.6-.3.4-.15.7-.34 1-.64.3-.3.5-.6.64-1 .12-.3.26-.75.3-1.6.05-.95.06-1.25.06-4s0-3-.06-4c-.04-.85-.18-1.3-.3-1.6a2.6 2.6 0 0 0-.64-1 2.6 2.6 0 0 0-1-.64c-.3-.12-.75-.26-1.6-.3-1-.05-1.3-.06-4-.06zm0 3.4a4.6 4.6 0 1 1 0 9.2 4.6 4.6 0 0 1 0-9.2zm0 1.8a2.8 2.8 0 1 0 0 5.6 2.8 2.8 0 0 0 0-5.6zm5.4-3.1a1.1 1.1 0 1 1-2.2 0 1.1 1.1 0 0 1 2.2 0z"/></svg>',
+  x: '<svg viewBox="0 0 24 24"><path d="M3 3h4.6l4 5.4L16.4 3H21l-7 8.4L21.4 21H16.7l-4.4-6-5.5 6H2l7.6-9.1L3 3z"/></svg>',
+  facebook: '<svg viewBox="0 0 24 24"><path d="M13.5 22v-8.2h2.7l.4-3.2h-3.1V8.5c0-.9.3-1.6 1.7-1.6h1.5V4c-.3 0-1.3-.1-2.4-.1-2.5 0-4.2 1.5-4.2 4.3v2.4H7.1v3.2h2.6V22h3.8z"/></svg>',
+  linkedin: '<svg viewBox="0 0 24 24"><path d="M4.98 3.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM3 9.5h4V21H3V9.5zM9 9.5h3.8v1.6h.05c.5-1 1.8-2 3.7-2 4 0 4.7 2.6 4.7 6V21h-4v-5.4c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9V21H9V9.5z"/></svg>',
+  email: '<svg viewBox="0 0 24 24"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm1.4 2L12 12.5 19.6 7H4.4zM21 8.4l-8.4 5.9a1 1 0 0 1-1.2 0L3 8.4V18h18V8.4z"/></svg>',
+  website: '<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm6.9 8H15.9a14.7 14.7 0 0 0-1.1-5.3A8 8 0 0 1 18.9 10zM12 4c.8 1.2 1.6 3.2 1.9 6H10.1c.3-2.8 1.1-4.8 1.9-6zM4.1 12H8c.1 1.9.5 3.7 1.1 5.3A8 8 0 0 1 4.1 12zm0-2A8 8 0 0 1 9.1 4.7 14.7 14.7 0 0 0 8 10H4.1zm5.9 8c-.8-1.2-1.6-3.2-1.9-6h3.8c-.3 2.8-1.1 4.8-1.9 6zm4.9-.7A14.7 14.7 0 0 0 15.9 14h3a8 8 0 0 1-4.9 5.3z"/></svg>'
+};
+
+document.getElementById("nameOut").textContent = `${CONFIG.firstName} ${CONFIG.lastName}`;
+document.getElementById("roleOut").textContent = [CONFIG.title, CONFIG.org].filter(Boolean).join(" · ");
+document.getElementById("avatarInitials").textContent = CONFIG.initials;
+document.title = `${CONFIG.firstName} ${CONFIG.lastName} · Contact`;
+
+const grid = document.getElementById("buttonGrid");
+Object.entries(CONFIG.links).forEach(([key, link]) => {
+  if (!link.url) return;
+  const a = document.createElement("a");
+  a.className = "stamp";
+  a.href = link.url;
+  a.target = key === "website" ? "_blank" : "_self";
+  a.rel = "noopener";
+  a.innerHTML = `<span class="ring">${ICONS[key] || ICONS.website}</span><span class="label">${link.label}</span>`;
+  grid.appendChild(a);
+});
+
+// ---- Save Contact -> builds a vCard client-side, works fully offline ----
+document.getElementById("saveBtn").addEventListener("click", () => {
+  const L = CONFIG.links;
+  let v = [
+    "BEGIN:VCARD","VERSION:3.0",
+    `N:${CONFIG.lastName};${CONFIG.firstName};;;`,
+    `FN:${CONFIG.firstName} ${CONFIG.lastName}`,
+  ];
+  if (CONFIG.org) v.push(`ORG:${CONFIG.org}`);
+  if (CONFIG.title) v.push(`TITLE:${CONFIG.title}`);
+  if (CONFIG.phone) v.push(`TEL;TYPE=CELL:${CONFIG.phone}`);
+  if (CONFIG.email) v.push(`EMAIL;TYPE=INTERNET:${CONFIG.email}`);
+  Object.entries(L).forEach(([key, link]) => {
+    if (link.url && key !== "phone" && key !== "email") {
+      v.push(`URL;TYPE=${key}:${link.url}`);
+    }
+  });
+  v.push("END:VCARD");
+
+  const blob = new Blob([v.join("\r\n")], { type: "text/vcard" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `${CONFIG.firstName}-${CONFIG.lastName}.vcf`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  const toast = document.getElementById("toast");
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), 2200);
+});
+
+// ---- Register service worker so the card works offline after first visit ----
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  });
+}
+</script>
+</body>
+</html>
