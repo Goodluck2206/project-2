@@ -299,7 +299,7 @@ document.getElementById("saveBtn").addEventListener("click", () => {
   if (CONFIG.org) v.push(`ORG:${CONFIG.org}`);
   if (CONFIG.title) v.push(`TITLE:${CONFIG.title}`);
   if (CONFIG.phone) v.push(`TEL;TYPE=CELL:${CONFIG.phone}`);
-  if (CONFIG.email) v.push(`EMAIL;TYPE=INTERNET:${CONFIG.email}`);
+  if (CONFIG.email) v.push(`EMAIL;TYPE=kiringo@gmail.com:${CONFIG.email}`);
   Object.entries(L).forEach(([key, link]) => {
     if (link.url && key !== "phone" && key !== "email") {
       v.push(`URL;TYPE=${key}:${link.url}`);
